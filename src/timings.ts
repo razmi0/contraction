@@ -1,17 +1,19 @@
 import { useState } from "react";
 
-type TimeStamp = ReturnType<Date["valueOf"]>;
+export type TimeStamp = ReturnType<Date["valueOf"]>;
 
-interface Contraction {
+export interface Contraction {
     order: number | null;
     start: TimeStamp | null;
     stop: TimeStamp | null;
     duration: Times | null;
 }
 
-interface ContractionData {
+export interface ContractionData {
     history: Contraction[];
     averageDuration: Times | null;
+    qlastHour: number | null;
+    averageTimeBetween: Times | null;
     current: Contraction | null;
 }
 
@@ -19,18 +21,20 @@ export interface Times {
     hours: number;
     minutes: number;
     seconds: number;
+    ms: number;
     totalms: TimeStamp;
 }
 
 let intervalId: ReturnType<typeof setInterval> | null = null;
 
-const msToHMS = (ms: number): Times => {
-    const totalSeconds = Math.floor(ms / 1000);
+const msToHMS = (totalms: number): Times => {
+    const totalSeconds = Math.floor(totalms / 1000);
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
     const seconds = totalSeconds % 60;
+    const ms = totalms % 1000;
 
-    return { hours, minutes, seconds, totalms: ms };
+    return { hours, minutes, seconds, ms, totalms };
 };
 
 const createContraction = ({ order }: { order: number }): Contraction => {
@@ -38,7 +42,7 @@ const createContraction = ({ order }: { order: number }): Contraction => {
         order,
         start: Date.now(),
         stop: null,
-        duration: { hours: 0, minutes: 0, seconds: 0, totalms: 0 },
+        duration: { hours: 0, minutes: 0, seconds: 0, ms: 0, totalms: 0 },
     };
 };
 
@@ -47,6 +51,8 @@ export default function useContractionTimer() {
         history: [],
         averageDuration: null,
         current: null,
+        averageTimeBetween: null,
+        qlastHour: null,
     });
     const [active, setActive] = useState<boolean>(false);
 

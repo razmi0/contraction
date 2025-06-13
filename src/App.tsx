@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import useTimer, { type Times } from "./timings.ts";
 
 function formatDuration(duration: Times | null) {
-    if (!duration) return "";
+    if (!duration) return null;
     const { minutes, seconds } = duration;
     return `${minutes.toString()}:${String(seconds).padStart(2, "0")}`;
 }
@@ -29,9 +29,13 @@ function App() {
             <header className="relative text-white py-8 flex flex-col items-center gap-6">
                 <h1 className="text-xl font-semibold uppercase tracking-widest">Contractions</h1>
                 <div className="flex justify-around w-full max-w-xl text-center text-sm">
-                    <HeaderElement quantity={formatDuration(contractions.averageDuration)}>durée moy</HeaderElement>
+                    <HeaderElement quantity={formatDuration(contractions.averageDuration) ?? "-"}>
+                        durée moy
+                    </HeaderElement>
                     <HeaderElement quantity="6">contractions heure écoulée</HeaderElement>
-                    <HeaderElement quantity="3">fréquence moy</HeaderElement>
+                    <HeaderElement quantity={formatDuration(contractions.averageTimeBetween) ?? "-"}>
+                        moy espacement
+                    </HeaderElement>
                 </div>
             </header>
 
@@ -40,6 +44,12 @@ function App() {
                 {/* Durée */}
                 <section className="flex flex-col gap-3 items-center pr-2">
                     <h3>Durée</h3>
+                    {active && contractions.current && (
+                        <div key={contractions.current.order} className="text-center opacity-80 w-12 h-12">
+                            <div className="text-lg text-red-500">{formatDuration(contractions.current.duration)}</div>
+                            <div className="text-xs text-gray-400">{formatTime(contractions.current.start)}</div>
+                        </div>
+                    )}
                     {contractions.history.map((c) => (
                         <div key={c.order} className="text-center opacity-80 w-12 h-12">
                             <div className="text-lg">{formatDuration(c.duration)}</div>
@@ -48,9 +58,17 @@ function App() {
                     ))}
                 </section>
 
-                {/* Numéros ronds */}
                 <section className="flex flex-col gap-3 items-center">
                     <div className="text-transparent">0rdre</div>
+                    {active && contractions.current && (
+                        <div className="w-12 h-12 flex items-center justify-center">
+                            <div
+                                key={contractions.current.order}
+                                className="rounded-full text-red-500 bg-[#3b3b3b] w-10 h-10 flex items-center justify-center text-lg font-medium drop-shadow-gray-400 drop-shadow-[0px_0px_5px]">
+                                {contractions.current.order}
+                            </div>
+                        </div>
+                    )}
                     {contractions.history.map((c) => (
                         <div className="w-12 h-12 flex items-center justify-center">
                             <div
@@ -64,6 +82,7 @@ function App() {
 
                 {/* Fréquence */}
                 <section className="flex flex-col gap-4 items-start pl-2">
+                    <h3>Espacement</h3>
                     {/* {contractions.frequencies.map((f, i) => (
                         <div key={i} className="opacity-80">
                             {f}
@@ -74,7 +93,12 @@ function App() {
 
             {/* FOOTER */}
             <footer className="flex justify-center items-center bg-black py-6">
-                <Button onClick={toggle}>DEBUT DES CONTRACTIONS</Button>
+                <Button onClick={toggle}>
+                    "DEBUT DES CONTRACTIONS"
+                    {/* ) : (
+                        <span className="text-lg">{formatDuration(contractions.current?.duration ?? null)}</span>
+                    )} */}
+                </Button>
             </footer>
         </>
     );
