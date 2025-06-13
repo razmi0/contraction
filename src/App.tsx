@@ -32,8 +32,8 @@ function App() {
                     <HeaderElement quantity={formatDuration(contractions.averageDuration) ?? "-"}>
                         durée moy
                     </HeaderElement>
-                    <HeaderElement quantity="6">contractions heure écoulée</HeaderElement>
-                    <HeaderElement quantity={formatDuration(contractions.averageTimeBetween) ?? "-"}>
+                    <HeaderElement quantity={contractions.qtyLastHour ?? "-"}>contractions heure écoulée</HeaderElement>
+                    <HeaderElement quantity={formatDuration(contractions.averageSinceLast) ?? "-"}>
                         moy espacement
                     </HeaderElement>
                 </div>
