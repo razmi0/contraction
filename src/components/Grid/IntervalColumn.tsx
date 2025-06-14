@@ -7,7 +7,7 @@ export default function IntervalColumn({ contractions }: { contractions: Contrac
             <h3>Espacement</h3>
             {contractions.history.map((c) => (
                 <div className="w-12 h-12 flex items-center justify-center" key={c.order}>
-                    <div className="opacity-80 translate-y-[calc(100%_+_10px)] text-gray-500">
+                    <div className="opacity-80 translate-y-[calc(100%_+_10px)] text-gray-400">
                         {formatDuration(c.intervalSinceLast)}
                     </div>
                 </div>

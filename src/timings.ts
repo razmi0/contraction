@@ -36,13 +36,6 @@ const mean = (arr: Contraction[], key: TimesKeys<Contraction>): number => {
     if (arr.length === 0) return 0;
     return arr.reduce((sum, cur) => sum + (cur[key]?.totalms ?? 0), 0) / arr.length;
 };
-// const avgDuration = (history: ContractionData["history"]) => {
-//     return history.reduce((sum, c) => sum + (c.duration?.totalms ?? 0), 0) / history.length;
-// };
-
-// const avgIntervals = (history: ContractionData["history"]) => {
-//     return history.reduce((sum, c) => sum + (c.intervalSinceLast?.totalms ?? 0), 0) / history.length;
-// };
 
 const countQtyLastHour = (history: ContractionData["history"], stoppedAt: number) => {
     const lastHourStartAt = stoppedAt - 3600 * 1000;
