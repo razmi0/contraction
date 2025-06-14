@@ -4,10 +4,10 @@ export type TimeStamp = ReturnType<Date["valueOf"]>;
 
 export interface Contraction {
     order: number | null;
-    start: TimeStamp | null;
+    start: TimeStamp;
     stop: TimeStamp | null;
-    duration: Times | null;
     intervalSinceLast: Times | null;
+    duration: Times | null;
 }
 
 export interface ContractionData {
@@ -26,11 +26,23 @@ export interface Times {
     totalms: TimeStamp;
 }
 
+type TimesKeys<T> = {
+    [K in keyof T]: T[K] extends Times | null ? K : never;
+}[keyof T];
+
 let intervalId: ReturnType<typeof setInterval> | null = null;
 
-const historyToAverage = (history: ContractionData["history"]) => {
-    return history.reduce((sum, c) => sum + (c.duration?.totalms ?? 0), 0) / history.length;
+const mean = (arr: Contraction[], key: TimesKeys<Contraction>): number => {
+    if (arr.length === 0) return 0;
+    return arr.reduce((sum, cur) => sum + (cur[key]?.totalms ?? 0), 0) / arr.length;
 };
+// const avgDuration = (history: ContractionData["history"]) => {
+//     return history.reduce((sum, c) => sum + (c.duration?.totalms ?? 0), 0) / history.length;
+// };
+
+// const avgIntervals = (history: ContractionData["history"]) => {
+//     return history.reduce((sum, c) => sum + (c.intervalSinceLast?.totalms ?? 0), 0) / history.length;
+// };
 
 const countQtyLastHour = (history: ContractionData["history"], stoppedAt: number) => {
     const lastHourStartAt = stoppedAt - 3600 * 1000;
@@ -78,18 +90,22 @@ export default function useContractionTimer() {
 
         setContractions((state) => {
             const newHistory = state.current ? [state.current, ...state.history] : [...state.history];
+            const newContraction = createContraction({ order: newHistory.length + 1 });
+
+            const lastStoppedAt = state.history[0] ? state.history[0].stop : null;
+            newContraction.intervalSinceLast = lastStoppedAt ? msToHMSMS(newContraction.start - lastStoppedAt) : null;
 
             return {
                 ...state,
                 history: newHistory,
-                current: createContraction({ order: newHistory.length + 1 }),
+                current: newContraction,
             };
         });
 
         intervalId = setInterval(() => {
             setContractions((state) => {
                 if (!state.current) return state;
-                const newDuration = msToHMSMS(Date.now() - (state.current.start ?? Date.now()));
+                const newDuration = msToHMSMS(Date.now() - state.current.start);
                 return {
                     ...state,
                     current: {
@@ -111,21 +127,27 @@ export default function useContractionTimer() {
         setContractions((state) => {
             if (!state.current) return state;
             const stoppedAt = Date.now();
+
             const updatedHistory: ContractionData["history"] = [
                 {
                     ...state.current,
                     stop: stoppedAt,
-                    duration: msToHMSMS(stoppedAt - (state.current.start ?? 0)),
+                    duration: msToHMSMS(stoppedAt - state.current.start),
                 },
                 ...state.history,
             ];
+
+            const averageDuration = updatedHistory.length > 0 ? msToHMSMS(mean(updatedHistory, "duration")) : null;
+            const averageSinceLast =
+                updatedHistory.length > 0 ? msToHMSMS(mean(updatedHistory, "intervalSinceLast")) : null;
 
             return {
                 ...state,
                 current: null,
                 history: updatedHistory,
-                averageDuration: updatedHistory.length > 0 ? msToHMSMS(historyToAverage(updatedHistory)) : null,
                 qtyLastHour: countQtyLastHour(updatedHistory, stoppedAt),
+                averageDuration,
+                averageSinceLast,
             };
         });
     };
