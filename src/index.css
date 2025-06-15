@@ -26,16 +26,12 @@ h1 {
     margin: 0;
 }
 
-/****/
 .rounded-edge {
     height: 200px;
     aspect-ratio: 3/2;
     --curvature: 85%;
     clip-path: ellipse(var(--curvature) 100% at 50% 0%);
 }
-
-/**
-**/
 
 #checkbox {
     display: none;
