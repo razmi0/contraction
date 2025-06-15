@@ -1,19 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { ContractionData } from "./types";
 import { formatDuration } from "./utils/format";
 import { countQtyLastHour, createContraction, mean, msToHMSMS } from "./utils/timings";
 
 let intervalId: ReturnType<typeof setInterval> | null = null;
 
-export default function useContractionTimer() {
+export default function useContractionTimer({
+    init,
+    onChange,
+}: {
+    init?: ContractionData | null;
+    onChange?: () => void;
+}) {
     const [active, setActive] = useState<boolean>(false);
-    const [contractions, setContractions] = useState<ContractionData>({
-        history: [],
-        averageDuration: null,
-        current: null,
-        averageSinceLast: null,
-        qtyLastHour: null,
-    });
+    const [contractions, setContractions] = useState<ContractionData>(
+        init ?? {
+            history: [],
+            averageDuration: null,
+            current: null,
+            averageSinceLast: null,
+            qtyLastHour: null,
+        }
+    );
 
     const startTimer = () => {
         setActive(true);
@@ -84,6 +92,10 @@ export default function useContractionTimer() {
             };
         });
     };
+
+    useEffect(() => {
+        onChange?.();
+    }, [onChange, active]);
 
     return {
         active,

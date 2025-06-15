@@ -2,17 +2,30 @@ import Main, { Duration, Interval, Order as Ordering } from "./components/Column
 import Footer from "./components/Footer.tsx";
 import Header, { Stat } from "./components/Header.tsx";
 import TimerTrigger from "./components/TimerTrigger.tsx";
-import useContractionTimer from "./contraction.ts";
+import useContraction from "./contraction.ts";
+import { type ContractionData } from "./types.ts";
+import { store } from "./utils/store.ts";
 
 function App() {
-    const { contractions: cs, stopTimer, startTimer, active } = useContractionTimer();
-    const { averageDuration, averageSinceLast, qtyLastHour } = cs;
+    const { save, load } = store<ContractionData>({ key: "__contractions" });
+    const {
+        contractions: cs,
+        stopTimer,
+        startTimer,
+        active,
+    } = useContraction({
+        init: load(),
+        onChange: () => {
+            save(cs);
+        },
+    });
+
     return (
         <>
             <Header>
-                <Stat quantity={averageDuration}>durée moy</Stat>
-                <Stat quantity={qtyLastHour}>contractions heure écoulée</Stat>
-                <Stat quantity={averageSinceLast}>moy espacement</Stat>
+                <Stat quantity={cs.averageDuration}>durée moy</Stat>
+                <Stat quantity={cs.qtyLastHour}>contractions heure écoulée</Stat>
+                <Stat quantity={cs.averageSinceLast}>moy espacement</Stat>
             </Header>
             <Main>
                 <Duration cs={cs} active>
