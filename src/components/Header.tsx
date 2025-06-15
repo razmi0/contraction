@@ -11,7 +11,7 @@ function Stat({ children, quantity }: { children: ReactNode; quantity: ReactNode
 
 export default function Header({ children }: { children: ReactNode }) {
     return (
-        <header className="relative text-white py-8 flex flex-col items-center gap-6 bg-bg-header">
+        <header className="relative text-white py-8 flex flex-col items-center gap-6 bg-bg-header rounded-edge">
             <h1 className="text-xl font-semibold uppercase tracking-widest text-primary-a1">Contractions</h1>
             <section aria-label="Statistiques" className="flex justify-around w-full max-w-xl text-center text-sm">
                 {children}
