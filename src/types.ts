@@ -8,9 +8,9 @@ export interface Contraction {
 
 export interface ContractionData {
     history: Contraction[];
-    averageDuration: Times | null;
+    averageDuration: null | string;
     qtyLastHour: number | null;
-    averageSinceLast: Times | null;
+    averageSinceLast: null | string;
     current: Contraction | null;
 }
 

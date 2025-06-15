@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { ContractionData } from "./types";
+import { formatDuration } from "./utils/format";
 import { countQtyLastHour, createContraction, mean, msToHMSMS } from "./utils/timings";
 
 let intervalId: ReturnType<typeof setInterval> | null = null;
@@ -66,9 +67,12 @@ export default function useContractionTimer() {
                 ...state.history,
             ];
 
-            const averageDuration = updatedHistory.length > 0 ? msToHMSMS(mean(updatedHistory, "duration")) : null;
-            const averageSinceLast =
-                updatedHistory.length > 0 ? msToHMSMS(mean(updatedHistory, "intervalSinceLast")) : null;
+            const averageDuration = formatDuration(
+                updatedHistory.length > 0 ? msToHMSMS(mean(updatedHistory, "duration")) : null
+            );
+            const averageSinceLast = formatDuration(
+                updatedHistory.length > 0 ? msToHMSMS(mean(updatedHistory, "intervalSinceLast")) : null
+            );
 
             return {
                 ...state,

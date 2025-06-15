@@ -1,4 +1,10 @@
 @import "tailwindcss";
+@theme {
+    --color-bg-header: #282828;
+    --color-bg-main: #121212;
+    --color-primary-a1: #43cfac;
+    --color-primary-a10: #61d5b5;
+}
 
 :root {
     font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -20,7 +26,6 @@ h1 {
     margin: 0;
 }
 
-/* From Uiverse.io by vinodjangid07 */
 #checkbox {
     display: none;
 }
@@ -61,7 +66,7 @@ h1 {
 }
 
 #checkbox:checked + .switch .svg {
-    filter: drop-shadow(0px 0px 3px rgb(222, 151, 255));
+    filter: drop-shadow(0px 0px 3px var(--color-primary-a1));
 }
 
 #checkbox:checked + .switch .svg path {
@@ -69,10 +74,10 @@ h1 {
 }
 
 #checkbox:checked + .switch {
-    box-shadow: 0px 0px 1px rgb(222, 151, 255) inset, 0px 0px 2px rgb(222, 151, 255) inset,
-        0px 0px 10px rgb(222, 151, 255) inset, 0px 0px 40px rgb(222, 151, 255), 0px 0px 100px rgb(222, 151, 255),
-        0px 0px 5px rgb(222, 151, 255);
+    box-shadow: 0px 0px 1px var(--color-primary-a1) inset, 0px 0px 2px var(--color-primary-a1) inset,
+        0px 0px 10px var(--color-primary-a1) inset, 0px 0px 40px var(--color-primary-a1),
+        0px 0px 100px var(--color-primary-a1), 0px 0px 5px var(--color-primary-a1);
     border: 5px solid rgb(255, 255, 255);
-    background-color: rgb(152, 107, 172);
+    background-color: var(--color-primary-a10);
     color: rgb(255, 255, 255);
 }
