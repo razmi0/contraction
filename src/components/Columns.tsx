@@ -10,9 +10,11 @@ interface ColumnProps {
 
 export default function Main({ children }: { children: ReactNode }) {
     return (
-        <main className="bg-bg-main text-white grid grid-cols-3 gap-4 px-4 py-6 text-sm flex-grow z-0 ">
-            {children}
-        </main>
+        <div className="masked-overflow">
+            <main className="bg-bg-main text-white grid grid-cols-3 gap-4 px-4 py-6 text-sm flex-grow z-0 ">
+                {children}
+            </main>
+        </div>
     );
 }
 
