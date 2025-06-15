@@ -80,4 +80,23 @@ h1 {
     border: 5px solid rgb(255, 255, 255);
     background-color: var(--color-primary-a10);
     color: rgb(255, 255, 255);
+    animation: pulse-glow 5s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+    0% {
+        box-shadow: 0px 0px 1px var(--color-primary-a1) inset, 0px 0px 2px var(--color-primary-a1) inset,
+            0px 0px 10px var(--color-primary-a1) inset, 0px 0px 40px var(--color-primary-a1),
+            0px 0px 100px var(--color-primary-a1), 0px 0px 5px var(--color-primary-a1);
+    }
+    50% {
+        box-shadow: 0px 0px 2px var(--color-primary-a1) inset, 0px 0px 4px var(--color-primary-a1) inset,
+            0px 0px 20px var(--color-primary-a1) inset, 0px 0px 80px var(--color-primary-a1),
+            0px 0px 160px var(--color-primary-a1), 0px 0px 10px var(--color-primary-a1);
+    }
+    100% {
+        box-shadow: 0px 0px 1px var(--color-primary-a1) inset, 0px 0px 2px var(--color-primary-a1) inset,
+            0px 0px 10px var(--color-primary-a1) inset, 0px 0px 40px var(--color-primary-a1),
+            0px 0px 100px var(--color-primary-a1), 0px 0px 5px var(--color-primary-a1);
+    }
 }
