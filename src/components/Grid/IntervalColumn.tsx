@@ -1,4 +1,4 @@
-import type { ContractionData } from "../../timings.ts";
+import type { ContractionData } from "../../types.ts";
 import { formatDuration } from "../../utils/format.ts";
 
 export default function IntervalColumn({ contractions }: { contractions: ContractionData }) {

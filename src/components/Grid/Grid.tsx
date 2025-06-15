@@ -1,4 +1,4 @@
-import type { ContractionData } from "../../timings.ts";
+import type { ContractionData } from "../../types.ts";
 import DurationColumn from "./DurationColumn";
 import IntervalColumn from "./IntervalColumn";
 import OrderColumn from "./OrderColumn";

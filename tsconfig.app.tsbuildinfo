@@ -1,0 +1,19 @@
+{
+    "root": [
+        "./src/app.tsx",
+        "./src/main.tsx",
+        "./src/timings.ts",
+        "./src/types.ts",
+        "./src/vite-env.d.ts",
+        "./src/components/button.tsx",
+        "./src/components/footer.tsx",
+        "./src/components/header.tsx",
+        "./src/components/grid/durationcolumn.tsx",
+        "./src/components/grid/grid.tsx",
+        "./src/components/grid/intervalcolumn.tsx",
+        "./src/components/grid/ordercolumn.tsx",
+        "./src/utils/format.ts",
+        "./src/utils/timings.ts"
+    ],
+    "version": "5.8.3"
+}

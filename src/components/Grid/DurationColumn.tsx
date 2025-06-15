@@ -1,5 +1,5 @@
+import type { ContractionData } from "../../types.ts";
 import { formatDuration, formatTime } from "../../utils/format";
-import type { ContractionData } from "../../timings.ts";
 
 export default function DurationColumn({ contractions, active }: { contractions: ContractionData; active: boolean }) {
     return (

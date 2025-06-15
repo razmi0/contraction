@@ -1,4 +1,4 @@
-import type { ContractionData } from "../../timings.ts";
+import type { ContractionData } from "../../types.ts";
 
 export default function OrderColumn({ contractions, active }: { contractions: ContractionData; active: boolean }) {
     return (

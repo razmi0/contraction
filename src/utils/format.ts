@@ -1,4 +1,4 @@
-import type { Times } from "../timings";
+import type { Times } from "../types";
 
 export function formatDuration(duration: Times | null) {
     if (!duration) return null;

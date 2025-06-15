@@ -1,5 +1,5 @@
 import { type ReactNode } from "react";
-import type { ContractionData } from "../timings.ts";
+import type { ContractionData } from "../types.ts";
 import { formatDuration } from "../utils/format";
 
 function HeaderElement({ children, quantity }: { children: ReactNode; quantity: ReactNode }) {
