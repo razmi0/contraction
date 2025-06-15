@@ -5,7 +5,7 @@ import { formatDuration, formatTime } from "../utils/format";
 interface ColumnProps {
     cs: ContractionData;
     active: boolean;
-    children: ReactNode;
+    title: string;
 }
 
 export default function Main({ children }: { children: ReactNode }) {
@@ -26,10 +26,10 @@ function Row({ children, dir = "horizontal", ...rest }: { children: ReactNode; d
     );
 }
 
-function Duration({ cs, active, children }: ColumnProps) {
+function Duration({ cs, active, title }: ColumnProps) {
     return (
-        <section aria-labelledby="durée-title" className="flex flex-col gap-3 items-center pr-2">
-            <h2 id="durée-title">{children}</h2>
+        <section aria-labelledby={`${title}-title`} className="flex flex-col gap-3 items-center pr-2">
+            <h2 id={`${title}-title`}>{title}</h2>
             {active && cs.current && (
                 <Row key={cs.current.order} dir="vertical">
                     <div className="text-lg text-red-500">{formatDuration(cs.current.duration)}</div>
@@ -46,11 +46,11 @@ function Duration({ cs, active, children }: ColumnProps) {
     );
 }
 
-function Order({ cs, active, children }: ColumnProps) {
+function Order({ cs, active, title }: ColumnProps) {
     return (
-        <section aria-label="ordre" className="flex flex-col gap-3 items-center">
-            <span id="ordre" className="text-transparent">
-                {children}
+        <section aria-label={`${title}-title`} className="flex flex-col gap-3 items-center">
+            <span id={`${title}-title`} className="text-transparent">
+                {title}
             </span>
             {active && cs.current && (
                 <Row>
@@ -72,10 +72,10 @@ function Order({ cs, active, children }: ColumnProps) {
     );
 }
 
-function Interval({ cs, children }: Omit<ColumnProps, "active">) {
+function Interval({ cs, title }: Omit<ColumnProps, "active">) {
     return (
-        <section aria-labelledby="espacement-title" className="flex flex-col gap-3 items-center pl-2">
-            <h2 id="espacement-title">{children}</h2>
+        <section aria-labelledby={`${title}-title`} className="flex flex-col gap-3 items-center pl-2">
+            <h2 id={`${title}-title`}>{title}</h2>
             {cs.history.map((c) => (
                 <Row key={c.order}>
                     <div className="opacity-80 translate-y-[calc(100%_+_10px)] text-gray-400">
